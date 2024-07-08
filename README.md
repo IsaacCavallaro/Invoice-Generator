@@ -12,7 +12,7 @@ The Invoice Generator is a Python script that allows users to generate professio
 ## Run the script
 
 ```bash
-python3 invoice_generator.py  
+python3 main.py 
 ```
 
 ---
