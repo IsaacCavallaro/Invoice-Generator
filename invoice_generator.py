@@ -13,6 +13,7 @@ from PyPDF2 import PdfWriter, PdfReader
 from decimal import Decimal
 import io
 from reportlab.platypus import Table, TableStyle
+import json
 
 load_dotenv(".envrc")
 
@@ -202,3 +203,13 @@ def send_invoice_email(sender_email, sender_password, receiver_email, pdf_file):
     text = msg.as_string()
     server.sendmail(sender_email, receiver_email, text)
     server.quit()
+
+def load_email_addresses():
+    with open("email_addresses.json", "r") as file:
+        return json.load(file)
+
+def save_email_address(name, email):
+    email_addresses = load_email_addresses()
+    email_addresses[name] = email
+    with open("email_addresses.json", "w") as file:
+        json.dump(email_addresses, file, indent=4)
