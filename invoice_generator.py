@@ -13,6 +13,7 @@ from PyPDF2 import PdfWriter, PdfReader
 from decimal import Decimal
 import io
 from reportlab.platypus import Table, TableStyle
+import json
 
 load_dotenv(".envrc")
 
@@ -202,3 +203,47 @@ def send_invoice_email(sender_email, sender_password, receiver_email, pdf_file):
     text = msg.as_string()
     server.sendmail(sender_email, receiver_email, text)
     server.quit()
+
+def load_email_addresses():
+    with open("email_addresses.json", "r") as file:
+        return json.load(file)
+
+def save_email_address(name, email):
+    email_addresses = load_email_addresses()
+    email_addresses[name] = email 
+    
+    with open("email_addresses.json", "w") as file:
+        json.dump(email_addresses, file, indent=4)
+
+def load_email_addresses():
+    try:
+        with open("email_addresses.json", "r") as file:
+            email_addresses = json.load(file)
+    except FileNotFoundError:
+        email_addresses = {}
+    
+    return email_addresses
+
+def save_email_address(name, email):
+    email_addresses = load_email_addresses()
+    email_addresses[name] = email 
+    
+    with open("email_addresses.json", "w") as file:
+        json.dump(email_addresses, file, indent=4)
+
+def choose_or_enter_email():
+    email_addresses = load_email_addresses()
+    print("Saved email addresses:")
+    for key, value in email_addresses.items():
+        print(f"{key}: {value}")
+
+    receiver_email_choice = input("Choose an email address (enter the key) or type a new email: ")
+
+    if receiver_email_choice in email_addresses:
+        receiver_email = email_addresses[receiver_email_choice]
+    else:
+        receiver_email = input("Enter a new email address: ")
+        name = input("Give a short name for this email address: ")
+        save_email_address(name, receiver_email)
+    
+    return receiver_email
