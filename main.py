@@ -1,4 +1,4 @@
-from invoice_generator import generate_invoice_pdf, send_invoice_email, get_next_invoice_number, load_email_addresses, save_email_address
+from invoice_generator import generate_invoice_pdf, send_invoice_email, get_next_invoice_number, load_email_addresses, save_email_address, choose_or_enter_email
 import os
 from dotenv import load_dotenv
 
@@ -14,21 +14,7 @@ def main():
     sender_password = os.getenv("SENDER_PASSWORD")
     invoice_from = os.getenv("INVOICE_FROM")
 
-    email_addresses = load_email_addresses()
-    print("Saved email addresses:")
-    for key, value in email_addresses.items():
-        print(f"{key}: {value}")
-
-    receiver_email_choice = input("Choose an email address (enter the key) or type a new email: ")
-
-    if receiver_email_choice in email_addresses:
-        receiver_email = email_addresses[receiver_email_choice]
-    else:
-        receiver_email = receiver_email_choice
-        save_email_choice = input("Do you want to save this email address? (yes/no): ")
-        if save_email_choice.lower() == "yes":
-            name = input("Enter a name for this email address: ")
-            save_email_address(name, receiver_email)
+    receiver_email = choose_or_enter_email() 
 
     invoice_number = get_next_invoice_number()
 
