@@ -27,7 +27,7 @@ def main():
     }
 
     generate_invoice_pdf(invoice_data, template_file, output_file)
-    send_invoice_email(sender_email, sender_password, receiver_email, output_file)
+    send_invoice_email(sender_email, sender_password, receiver_email, output_file, invoice_number)
 
 if __name__ == "__main__":
     main()
