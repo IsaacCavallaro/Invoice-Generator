@@ -41,7 +41,7 @@ def draw_invoice_number(can, invoice_number, start_x, start_y):
     can.setFont(bold_font, 10)
     can.drawString(start_x, start_y, "Invoice No: ")
 
-    value_x = start_x + 100
+    value_x = start_x + 70
     value_y = start_y
 
     can.setFont(normal_font, 10)
@@ -178,8 +178,8 @@ def generate_invoice_pdf(invoice_data, template_file, output_file):
     with open(output_file, "wb") as output_stream:
         output.write(output_stream)
 
-def send_invoice_email(sender_email, sender_password, receiver_email, pdf_file):
-    subject = "Invoice"
+def send_invoice_email(sender_email, sender_password, receiver_email, pdf_file, invoice_number):
+    subject = f"Invoice {invoice_number}"
     body = "Please find attached invoice."
 
     msg = MIMEMultipart()
