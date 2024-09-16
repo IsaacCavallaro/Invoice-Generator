@@ -2,3 +2,4 @@
 last_invoice_number.txt
 email_addresses.json
 __pycache__/
+venv
